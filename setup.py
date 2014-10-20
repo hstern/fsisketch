@@ -33,7 +33,7 @@ setup(
               ],
           language='c++',
           )],
-  version='0.1',
+  version='0.2',
   url='https://github.com/farsightsec/fsisketch',
   license = 'MIT License',
   test_suite = 'tests',
