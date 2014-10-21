@@ -19,7 +19,7 @@ import mmaparray
 import six
 
 class Sketch(object):
-    def __init__(self, filename, typecode, size, fp_prob=0.001, seed=0, read_only=False, want_populate=False, want_lock=False):
+    def __init__(self, filename, typecode, size, fp_prob=0.001, seed=0, read_only=False, want_fallocate=False, want_populate=False, want_lock=False):
         self._seed = seed
 
         buckets_per_element = max_buckets_per_element(size)
@@ -28,7 +28,9 @@ class Sketch(object):
         self._num_rows = K
         self._row_size = int(size * buckets_per_element / self._num_rows)
         self._backing = mmaparray.array(filename, typecode,
-                self._row_size * self._num_rows, read_only, want_populate, want_lock)
+                self._row_size * self._num_rows, read_only=read_only,
+                want_fallocate=want_fallocate, want_populate=want_populate,
+                want_lock=want_lock)
 
     def clear(self):
         for i in range(0, len(self._backing)):
@@ -94,8 +96,10 @@ class Sketch(object):
                     self.add(v)
 
 class CMSketch(Sketch):
-    def __init__(self, filename, typecode, size, fp_prob=0.001, seed=0, read_only=False, want_populate=False, want_lock=False):
-        super(CMSketch, self).__init__(filename, typecode, size, fp_prob, seed, read_only, want_populate, want_lock)
+    def __init__(self, filename, typecode, size, fp_prob=0.001, seed=0, read_only=False, want_fallocate=False, want_populate=False, want_lock=False):
+        super(CMSketch, self).__init__(filename, typecode, size, fp_prob,
+                seed, read_only=read_only, want_fallocate=want_fallocate,
+                want_populate=want_populate, want_lock=want_lock)
 
         if typecode in 'o':
             raise ValueError("Unsupported type code: '{}'".format(typecode))
