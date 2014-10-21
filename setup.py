@@ -37,7 +37,7 @@ setup(
   url='https://github.com/farsightsec/fsisketch',
   license = 'MIT License',
   test_suite = 'tests',
-  requires = [ 'mmaparray (>=0.3)', 'six', 'Cython' ],
+  requires = [ 'mmaparray (>=0.4)', 'six', 'Cython' ],
   classifiers = [
     'License :: OSI Approved :: Apache Software License',
     'Programming Language :: Cython',
